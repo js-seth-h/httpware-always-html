@@ -4,7 +4,7 @@ request = require 'supertest'
 describe 'always html', ()->
 
   ho = require 'handover'
-  alwaysHtml = require '../src/httpware-always-html'
+  alwaysHtml = require '../src'
   http = require 'http'
 
   fs = require 'fs'
