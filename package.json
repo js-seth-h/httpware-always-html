@@ -1,0 +1,32 @@
+{
+  "name": "httpware-always-html",
+  "version": "0.0.0",
+  "description": "",
+  "main": "httpware-always-html.coffee",
+  "scripts": {
+    "rm-js": "ls -R | where { $_.extension -eq '.js' } |  foreach { $_.Fullname }",
+    "build": "coffee -c -b httpware-always-html.coffee",
+    "test": "set TEST=true && mocha --compilers coffee:coffee-script/register   --reporter spec",
+    "start": "set TEST=true && set DEBUG=hand* && mocha --compilers coffee:coffee-script/register   --reporter spec",
+    "prepublish": "npm run-script build",
+    "postpublish": "rm *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/js-seth-h/httpware-always-html.git"
+  },
+  "author": "js.seth.h@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/js-seth-h/httpware-always-html/issues"
+  },
+  "homepage": "https://github.com/js-seth-h/httpware-always-html",
+  "dependencies": {
+    "debounce": "0.0.3",
+    "debug": "^0.8.1"
+  },
+  "devDependencies": {
+    "handover": "^0.4.4",
+    "supertest": "^0.13.0"
+  }
+}
