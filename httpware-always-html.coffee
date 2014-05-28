@@ -17,14 +17,9 @@ alwaysHtml = (option = {})->
         throw err 
       cachedHtml = html
       debug 'cached html updated'
-      option.afterLoaded()
+      option.afterLoaded() 
 
-  onWatched =  (evt, filename)->
-    debug 'watch ', evt, filename 
-    loadHtml()
-
-
-  fs.watch option.path, debounce(onWatched, option.debounce)
+  fs.watch option.path, debounce(loadHtml, option.debounce)
 
 
   loadHtml()
