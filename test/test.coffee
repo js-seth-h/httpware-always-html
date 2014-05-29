@@ -3,7 +3,7 @@ request = require 'supertest'
 
 describe 'always html', ()->
 
-  ho = require 'handover'
+  flyway = require 'flyway'
   alwaysHtml = require '../src'
   http = require 'http'
 
@@ -12,7 +12,7 @@ describe 'always html', ()->
   fs.writeFileSync 'test/update.html', "Rev 1"
 
   doTest = undefined
-  server = http.createServer ho [
+  server = http.createServer flyway [
 #      ... something you need
     alwaysHtml 
       path : 'test/update.html'
@@ -23,7 +23,7 @@ describe 'always html', ()->
   agent = request.agent(server);
 
 
-  it "should send", (done)->
+  it "sflywayuld send", (done)->
     doTest = ()->
         agent
           .get '/'
@@ -31,7 +31,7 @@ describe 'always html', ()->
           .expect 200, done
 
 
-  it "should update send", (done)->
+  it "sflywayuld update send", (done)->
     fs.writeFileSync 'test/update.html', "Rev 2"
     doTest = ()->
       agent
