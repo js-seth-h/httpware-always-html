@@ -12,17 +12,14 @@ alwaysHtml = (option = {}, done = emptyFn )->
   cachedHtml = undefined
 
   loadHtml = (callback)->
-    fs.readFile option.path,(err, html)->
-      if err
-        debug 'throw ', err
-        throw err 
+    fs.readFile option.path,(err, html)->      
+      return callback(err) if err
       cachedHtml = html
       debug 'cached html updated'
       callback()
 
   refreshHtml = ()->
-    loadHtml ()->
-      option.onRefresh()
+    loadHtml option.onRefresh
   fs.watch option.path, debounce(refreshHtml, option.debounce)
 
 
