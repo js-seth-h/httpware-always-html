@@ -16,7 +16,9 @@ describe 'always html', ()->
 #      ... something you need
     alwaysHtml 
       path : 'test/update.html'
-      afterLoaded: ()->
+      onRefresh : ()->
+        doTest()
+    , ()->
         doTest()
 
   ] 
@@ -32,11 +34,11 @@ describe 'always html', ()->
 
 
   it "sflywayuld update send", (done)->
-    fs.writeFileSync 'test/update.html', "Rev 2"
     doTest = ()->
       agent
         .get '/'
         .expect 'Rev 2'
         .expect 200, done
+    fs.writeFileSync 'test/update.html', "Rev 2"
 
 

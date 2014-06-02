@@ -3,26 +3,30 @@ debug = require('debug') 'httpware-always-html'
 fs = require 'fs'
 debounce = require('debounce')
 
-alwaysHtml = (option = {})->
+emptyFn = ()->
+alwaysHtml = (option = {}, done = emptyFn )->
   debug 'alwaysHtml with', option
-  throw new Error 'require `options.path`' unless option.path
-  option.afterLoaded = option.afterLoaded || ()->
+  throw new Error 'require `options.path`' unless option.path 
   option.debounce = option.debounce || 200
+  option.onRefresh = option.onRefresh || ()->
   cachedHtml = undefined
 
-  loadHtml = ()->
+  loadHtml = (callback)->
     fs.readFile option.path,(err, html)->
       if err
         debug 'throw ', err
         throw err 
       cachedHtml = html
       debug 'cached html updated'
-      option.afterLoaded() 
+      callback()
 
-  fs.watch option.path, debounce(loadHtml, option.debounce)
+  refreshHtml = ()->
+    loadHtml ()->
+      option.onRefresh()
+  fs.watch option.path, debounce(refreshHtml, option.debounce)
 
 
-  loadHtml()
+  loadHtml done
 
 
   return (req, res, next)->
